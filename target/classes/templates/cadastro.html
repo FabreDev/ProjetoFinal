@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>PetHubPro - Página Inicial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.3-dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="/css/pethub.css">
+    <script src="/js/script.js"></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <div class="header-nav-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-12 d-flex flex-wrap">
+                        <p class="d-flex mt-3">
+                            <strong class="text-light">PetHub</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <img src="/images/imagem.png" alt="Imagem com fundo transparente">
+
+        <nav class="navbar navbar-expand-lg border-radius-bottom-left-right">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/inicio}">Cadastro Usuário</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav align-items-lg-center ms-auto me-lg-5">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" th:href="@{/inicio}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" th:href="@{/inserir-usuario}">Cadastro de Usuários</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <main class="flex-grow-1 d-flex justify-content-center align-items-center">
+
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-lg-10 col-md-10 col-12 mb-4 mt-4">
+                    <section class="box bg-white rounded shadow-sm p-4">
+                        <form th:action="@{/gravar-usuario}" method="post" th:object="${usuario}" id="formCadastro"
+                            onsubmit="return validarFormulario()">
+                            <h2 class="text-center mb-4">Cadastro de Usuário</h2>
+                            <input type="hidden" th:field="${usuario.id}">
+                            <!-- Seção de Informações Pessoais -->
+                            <div class="mb-3">
+                                <h3>Informações de Identificação</h3>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="nome" class="form-label d-block text-start">Nome:</label>
+                                    <input type="text" th:field="${usuario.nome}" id="nome" name="nome" required
+                                        class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="sobrenome" class="form-label d-block text-start">Sobrenome:</label>
+                                    <input type="text" th:field="${usuario.sobrenome}" id="sobrenome" name="sobrenome"
+                                        required class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tipoUsuario" class="form-label d-block text-start">Tipo de
+                                        Usuário:</label>
+                                    <select id="tipoUsuario" th:field="${usuario.tipoUsuario}" name="tipoUsuario"
+                                        onchange="mostrarServicos()" required class="form-select">
+                                        <option value="">--Selecione--</option>
+                                        <option value="Tutor">Tutores</option>
+                                        <option value="Petsitter">Petsitters</option>
+                                        <option value="Pethoster">Pethosters</option>
+                                        <option value="Dogwalker">Dogwalkers</option>
+                                        <option value="Clínica Estética">Clínicas Estéticas</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="dataNascimento" class="form-label d-block text-start">Data de
+                                        Nascimento:</label>
+                                    <input type="text" th:field="${usuario.dataNascimento}" id="dataNascimento"
+                                        name="dataNascimento" required class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="cpf" class="form-label d-block text-start">CPF:</label>
+                                    <input type="text" th:field="${usuario.cpf}" id="cpf" name="cpf" required
+                                        class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="cnpj" class="form-label d-block text-start">CNPJ:</label>
+                                    <input type="text" th:field="${usuario.cnpj}" id="cnpj" name="cnpj"
+                                        class="form-control">
+                                </div>
+                            </div>
+                    </section>
+                </div>
+
+                <div class="col-lg-10 col-md-10 col-12 mb-4">
+                    <section class="box bg-white rounded shadow-sm p-4">
+                        <!-- Seção de Localidade -->
+                        <div class="mb-3">
+                            <h3>Informações de Localidade</h3>
+
+                            <div class="mb-3 mt-3">
+                                <label for="cep" class="form-label d-block text-start">CEP:</label>
+                                <input type="text" th:field="${usuario.cep}" id="cep" name="cep" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rua" class="form-label d-block text-start">Rua:</label>
+                                <input type="text" th:field="${usuario.rua}" id="rua" name="rua" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="numero" class="form-label d-block text-start">Número:</label>
+                                <input type="text" th:field="${usuario.numero}" id="numero" name="numero" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="complemento" class="form-label d-block text-start">Complemento:</label>
+                                <input type="text" th:field="${usuario.complemento}" id="complemento" name="complemento"
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bairro" class="form-label d-block text-start">Bairro:</label>
+                                <input type="text" th:field="${usuario.bairro}" id="bairro" name="bairro" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cidade" class="form-label d-block text-start">Cidade:</label>
+                                <input type="text" th:field="${usuario.cidade}" id="cidade" name="cidade" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="estado" class="form-label d-block text-start">Estado:</label>
+                                <input type="text" th:field="${usuario.estado}" id="estado" name="estado" required
+                                    maxlength="2" class="form-control">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="col-lg-10 col-md-10 col-12 mb-4">
+                    <section class="box bg-white rounded shadow-sm p-4">
+                        <!-- Seção de Email e Senha -->
+                        <div class="mb-3">
+                            <h3>Contato e Login</h3>
+
+                            <div class="mb-3 mt-3">
+                                <label for="telefone" class="form-label d-block text-start">Telefone:</label>
+                                <input type="text" th:field="${usuario.telefone}" id="telefone" name="telefone" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label d-block text-start">Email:</label>
+                                <input type="email" th:field="${usuario.email}" id="email" name="email" required
+                                    class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="senha" class="form-label d-block text-start">Senha:</label>
+                                <input type="password" th:field="${usuario.senha}" id="senha" name="senha" required
+                                    class="form-control">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                        </div>
+                        </form>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="site-footer d-flex justify-content-center align-items-center mt-auto border-radius-top-left-right">
+        <div class="container mt-3 mb-3">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6 col-12 text-center mb-4 mb-lg-0">
+                    <h5 class="site-footer-title mb-3">Contato:</h5>
+                    <p class="text-white d-flex justify-content-center mb-1">
+                        <a>(51) XXXXX-XXXX</a>
+                    </p>
+                    <p class="text-white d-flex justify-content-center">
+                        <a>pethub@contato.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

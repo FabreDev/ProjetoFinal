@@ -1,1 +1,8 @@
-/home/andrefabre/Desktop/Projeto F|inal/PetHub/src/main/java/com/fabre/PetHub/PetHubApplication.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/PetHubApplication.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/controller/PetController.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/controller/PetRestController.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/controller/UsuarioController.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/controller/UsuarioRestController.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/model/Dados.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/model/Pet.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/model/Usuario.java

@@ -1,1 +1,8 @@
 com/fabre/PetHub/PetHubApplication.class
+com/fabre/PetHub/controller/PetController.class
+com/fabre/PetHub/controller/UsuarioRestController.class
+com/fabre/PetHub/controller/PetRestController.class
+com/fabre/PetHub/model/Pet.class
+com/fabre/PetHub/model/Dados.class
+com/fabre/PetHub/model/Usuario.class
+com/fabre/PetHub/controller/UsuarioController.class
