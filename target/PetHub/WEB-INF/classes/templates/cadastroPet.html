@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>PetHubPro - Página Inicial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.3-dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="/css/pethub.css">
+    <script src="/js/script.js"></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <div class="header-nav-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-12 d-flex flex-wrap">
+                        <p class="d-flex mt-3">
+                            <strong class="text-light">PetHub</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <img src="/images/imagem.png" alt="Imagem com fundo transparente">
+
+        <nav class="navbar navbar-expand-lg border-radius-bottom-left-right">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/inicio}">Cadastro Pet</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav align-items-lg-center ms-auto me-lg-5">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" th:href="@{/inicio}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" th:href="@{/cadastro}">Cadastro de Usuários</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <main class="flex-grow-1 d-flex justify-content-center align-items-center">
+
+        <section class="col-lg-6 mb-4 mt-4" style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);">
+
+            <div class="p-4 bg-light rounded shadow-sm text-center">
+                <h2>Cadastro de Pet</h2>
+
+                <form th:action="@{/adicionar-pet}" method="post" th:object="${novoPet}" id="formCadastro">
+                    <input type="hidden" name="id">
+
+                    <div class="mb-3">
+                        <label for="nome" class="form-label d-block text-start">Nome do Pet:</label>
+                        <input type="text" th:field="*{nome}" id="nome" name="nome" required class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tipoPet" class="form-label d-block text-start">Tipo do Pet:</label>
+                        <select id="tipoPet" th:field="*{tipoPet}" name="tipoPet" required class="form-select">
+                            <option value="">Selecione...</option>
+                            <option value="Cão">Cão</option>
+                            <option value="Gato">Gato</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="idade" class="form-label d-block text-start">Idade do Pet:</label>
+                        <input type="number" th:field="*{idade}" id="idade" name="idade" required class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="raca" class="form-label d-block text-start">Raça do Pet:</label>
+                        <input type="text" th:field="*{raca}" id="raca" name="raca" required class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="corPredominante" class="form-label d-block text-start">Cor Predominante:</label>
+                        <input type="text" th:field="*{corPredominante}" id="corPredominante" name="corPredominante"
+                            required class="form-control">
+                    </div>
+
+                    <input type="hidden" name="tutorId" th:value="${usuario.id}" />
+
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar Pet</button>
+                </form>
+
+                <button type="button" class="btn btn-secondary mt-3"
+                    th:onclick="|location.href='/pets?id=${usuario.id}'|">Voltar</button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer d-flex justify-content-center align-items-center mt-auto border-radius-top-left-right">
+        <div class="container mt-3 mb-3">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6 col-12 text-center mb-4 mb-lg-0">
+                    <h5 class="site-footer-title mb-3">Contato:</h5>
+                    <p class="text-white d-flex justify-content-center mb-1">
+                        <a>(51) XXXXX-XXXX</a>
+                    </p>
+                    <p class="text-white d-flex justify-content-center">
+                        <a>pethub@contato.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
