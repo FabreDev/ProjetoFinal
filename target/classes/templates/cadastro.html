@@ -40,7 +40,7 @@
                             <a class="nav-link click-scroll" th:href="@{/inicio}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" th:href="@{/inserir-usuario}">Cadastro de Usuários</a>
+                            <a class="nav-link click-scroll" th:href="@{/cadastro}">Cadastro de Usuários</a>
                         </li>
                     </ul>
                 </div>
@@ -59,6 +59,7 @@
                             onsubmit="return validarFormulario()">
                             <h2 class="text-center mb-4">Cadastro de Usuário</h2>
                             <input type="hidden" th:field="${usuario.id}">
+
                             <!-- Seção de Informações Pessoais -->
                             <div class="mb-3">
                                 <h3>Informações de Identificação</h3>
@@ -113,6 +114,7 @@
 
                 <div class="col-lg-10 col-md-10 col-12 mb-4">
                     <section class="box bg-white rounded shadow-sm p-4">
+
                         <!-- Seção de Localidade -->
                         <div class="mb-3">
                             <h3>Informações de Localidade</h3>
@@ -164,6 +166,7 @@
 
                 <div class="col-lg-10 col-md-10 col-12 mb-4">
                     <section class="box bg-white rounded shadow-sm p-4">
+
                         <!-- Seção de Email e Senha -->
                         <div class="mb-3">
                             <h3>Contato e Login</h3>
@@ -187,6 +190,16 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+
+                            <button type="button" class="btn btn-secondary"
+                                th:if="${usuario.id != null and usuario.id != ''}"
+                                th:onclick="|location.href='/menu?id=${usuario.id}'|">Voltar ao Menu
+                            </button>
+
+                            <button type="button" class="btn btn-secondary"
+                                th:if="${usuario.id == null or usuario.id == ''}"
+                                th:onclick="|location.href='/login'|">Voltar ao Login
+                            </button>
                         </div>
                         </form>
                     </section>

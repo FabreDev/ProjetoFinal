@@ -40,7 +40,7 @@
                             <a class="nav-link click-scroll" th:href="@{/inicio}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" th:href="@{/inserir-usuario}">Cadastro de Usuários</a>
+                            <a class="nav-link click-scroll" th:href="@{/cadastro}">Cadastro de Usuários</a>
                         </li>
                     </ul>
                 </div>
@@ -95,8 +95,9 @@
                     </table>
                 </div>
 
-                <button type="button" class="btn btn-primary"
+                <button type="button" class="btn btn-secondary" th:if="${usuario != null}"
                     th:onclick="|location.href='/menu?id=${usuario.id}'|">Voltar ao Menu</button>
+
             </div>
         </section>
 
@@ -110,7 +111,7 @@
                     <p class="text-white d-flex justify-content-center mb-1">
                         <a>(51) XXXXX-XXXX</a>
                     </p>
-                    <p class="text-white d-flex justify-content-center">
+                    <p>
                         <a>pethub@contato.com</a>
                     </p>
                 </div>

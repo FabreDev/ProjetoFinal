@@ -6,3 +6,7 @@
 /home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/model/Dados.java
 /home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/model/Pet.java
 /home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/model/Usuario.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/repository/PetRepository.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/repository/UsuarioRepository.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/service/PetService.java
+/home/andrefabre/Desktop/ProjetoFinal/src/main/java/com/fabre/PetHub/service/UsuarioService.java

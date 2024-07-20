@@ -40,7 +40,7 @@
                             <a class="nav-link click-scroll" th:href="@{/inicio}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" th:href="@{/inserir-usuario}">Cadastro de Usuários</a>
+                            <a class="nav-link click-scroll" th:href="@{/cadastro}">Cadastro de Usuários</a>
                         </li>
                     </ul>
                 </div>
@@ -56,8 +56,8 @@
                 <h2>Cadastro de Pet</h2>
 
                 <form th:action="@{/adicionar-pet}" method="post" th:object="${novoPet}" id="formCadastro">
-                    <input type="hidden" th:field="*{id}">
-                    
+                    <input type="hidden" name="id">
+
                     <div class="mb-3">
                         <label for="nome" class="form-label d-block text-start">Nome do Pet:</label>
                         <input type="text" th:field="*{nome}" id="nome" name="nome" required class="form-control">
@@ -87,8 +87,8 @@
                         <input type="text" th:field="*{corPredominante}" id="corPredominante" name="corPredominante"
                             required class="form-control">
                     </div>
-                    
-                    <input type="hidden" th:field="*{tutor_id}" th:value="${usuario.id}" />
+
+                    <input type="hidden" name="tutorId" th:value="${usuario.id}" />
 
                     <button type="submit" class="btn btn-primary btn-block">Cadastrar Pet</button>
                 </form>
@@ -100,7 +100,6 @@
         </section>
 
     </main>
-
 
     <footer class="site-footer d-flex justify-content-center align-items-center mt-auto border-radius-top-left-right">
         <div class="container mt-3 mb-3">

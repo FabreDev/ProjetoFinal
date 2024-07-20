@@ -1,18 +1,32 @@
 package com.fabre.PetHub.controller;
 
-import com.fabre.PetHub.model.Dados;
 import com.fabre.PetHub.model.Pet;
 import com.fabre.PetHub.model.Usuario;
+import com.fabre.PetHub.repository.UsuarioRepository;
+import com.fabre.PetHub.service.PetService;
+import com.fabre.PetHub.service.UsuarioService;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UsuarioController {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private PetService petService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    public UsuarioController(PetService petService) {
+        this.petService = petService;
+    }
 
     @GetMapping("/")
     public String inicio() {
@@ -20,32 +34,68 @@ public class UsuarioController {
     }
 
     @GetMapping("/inicio")
-    public String inicio2(@RequestParam(required = false) Integer id, Model model) {
-        if (id != null) {
-            Usuario usuario = Dados.buscarUsuario(id);
-            if (usuario != null) {
-                model.addAttribute("usuario", usuario);
-
-                return "redirect:/menu?id=" + id;
-            }
-        }
-        return "redirect:/";
+    public String inicio2(@CookieValue(name = "pref-estilo", defaultValue = "light") String tema, Model model) {
+        model.addAttribute("css", tema);
+        return "index";
     }
 
-    @GetMapping("/inserir-usuario")
-    public String cadastro(Model model) {
+    @GetMapping("/busca")
+    public String lista(Model model, @RequestParam(name = "id", required = false) Integer id) {
+        List<Usuario> usuarios = usuarioService.buscarTodosUsuarios().stream()
+                .filter(usuario -> !usuario.getTipoUsuario().equals("Tutor"))
+                .collect(Collectors.toList());
+
+        model.addAttribute("usuarios", usuarios);
+
+        if (id != null) {
+            Usuario usuario = usuarioService.buscarUsuarioPorId(id).orElse(null);
+            model.addAttribute("usuario", usuario);
+        } else {
+            model.addAttribute("usuario", new Usuario());
+        }
+
+        return "busca";
+    }
+
+    @GetMapping("/cadastro")
+    public String cadastro(String tema, Model model) {
         model.addAttribute("usuario", new Usuario());
         return "cadastro";
     }
 
     @PostMapping("/gravar-usuario")
-    public String processarForm(Model model, Usuario usuario) {
-        if (usuario.getId() != null) {
-            Dados.atualizarUsuario(usuario);
-        } else {
-            Dados.adicionarUsuario(usuario);
-        }
+    public String processarForm(@ModelAttribute Usuario usuario) {
+        usuarioService.salvarUsuario(usuario);
         return "redirect:/menu?id=" + usuario.getId();
+    }
+
+    @GetMapping("/pets")
+    public String mostrarPets(Model model, @RequestParam String id) {
+        Integer idUsuario = Integer.parseInt(id);
+        Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario).orElse(null);
+        List<Pet> pets = petService.buscarPetsPorUsuarioId(idUsuario);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("pets", pets);
+        Pet novoPet = new Pet();
+        novoPet.setTutor(idUsuario);
+        model.addAttribute("novoPet", novoPet);
+        return "pets";
+    }
+
+    @GetMapping("/excluir-usuario")
+    public String excluirUsuario(@RequestParam String id) {
+        Integer idUsuario = Integer.parseInt(id);
+        usuarioService.excluirUsuario(idUsuario);
+        return "redirect:/cadastro";
+    }
+
+    @GetMapping("/alterar-usuario")
+    public String alterarUsuario(Model model, @RequestParam String id) {
+        Integer idUsuario = Integer.parseInt(id);
+        Usuario usuario = usuarioService.buscarUsuarioPorId(idUsuario).orElse(null);
+        model.addAttribute("usuario", usuario);
+        return "cadastro";
     }
 
     @GetMapping("/login")
@@ -54,26 +104,9 @@ public class UsuarioController {
         return "index";
     }
 
-    @GetMapping("/excluir-usuario")
-    public String excluirUsuario(@RequestParam String id) {
-        Integer idUsuario = Integer.parseInt(id);
-        Dados.excluirUsuario(idUsuario);
-        return "redirect:/listagem";
-    }
-
-    @GetMapping("/alterar-usuario")
-    public String alterarUsuario(Model model, @RequestParam Integer id) {
-        Usuario usuario = Dados.buscarUsuario(id);
-        if (usuario != null) {
-            model.addAttribute("usuario", usuario);
-            return "cadastro";
-        }
-        return "redirect:/";
-    }
-
     @PostMapping("/validar-login")
     public String validarLogin(Model model, @RequestParam String email, @RequestParam String senha) {
-        Usuario usuario = Dados.listarUsuarios().stream()
+        Usuario usuario = usuarioService.buscarTodosUsuarios().stream()
                 .filter(u -> u.getEmail().equals(email) && u.getSenha().equals(senha))
                 .findFirst()
                 .orElse(null);
@@ -88,52 +121,18 @@ public class UsuarioController {
     }
 
     @GetMapping("/menu")
-    public String menu(@RequestParam Integer id, Model model) {
-        Usuario usuario = Dados.buscarUsuario(id);
+    public String mostrarMenu(@RequestParam(required = false) Integer id, Model model) {
+        if (id == null) {
+            // Redireciona para a página de login ou exibe uma mensagem de erro
+            return "redirect:/login";
+        }
+
+        Usuario usuario = usuarioService.buscarUsuarioPorId(id).orElse(null);
         if (usuario != null) {
             model.addAttribute("usuario", usuario);
             return "menu";
+        } else {
+            return "redirect:/login";
         }
-        return "redirect:/";
-    }
-
-    @GetMapping("/busca")
-    public String busca(@RequestParam(required = false) Integer id, Model model) {
-        List<Usuario> usuarios = Dados.listarUsuarios().stream()
-                .filter(usuario -> !usuario.getTipoUsuario().equals("Tutor"))
-                .collect(Collectors.toList());
-
-        if (id != null) {
-            Usuario usuario = Dados.buscarUsuario(id);
-            if (usuario != null) {
-                model.addAttribute("usuario", usuario);
-            }
-        }
-
-        model.addAttribute("usuarios", usuarios);
-        return "busca";
-    }
-
-    @GetMapping("/pets")
-    public String pets(@RequestParam(required = false) Integer id, Model model) {
-        if (id != null) {
-            Usuario usuario = Dados.buscarUsuario(id);
-            if (usuario != null) {
-                model.addAttribute("usuario", usuario);
-                return "pets";
-            }
-        }
-        return "redirect:/";
-    }
-
-    @GetMapping("/cadastroPet")
-    public String cadastroPet(@RequestParam Integer id, Model model) {
-        Usuario registroEncontrado = Dados.buscarUsuario(id);
-
-        model.addAttribute("usuario", registroEncontrado);
-        model.addAttribute("pets", "petsUsuario");
-        model.addAttribute("novoPet", new Pet(null, "", "", 0, "", "", id));
-
-        return "cadastroPet";
     }
 }

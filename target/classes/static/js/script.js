@@ -3,34 +3,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const formBusca = document.getElementById("formBusca");
     const tipoUsuarioSelect = document.getElementById("tipoUsuario");
     const cidadeInput = document.getElementById("cidade");
-    const tabelaUsuarios = document.getElementById("tabelaUsuarios").getElementsByTagName('tbody')[0];
+    const tabelaUsuarios = document.getElementById("tabelaUsuarios");
 
-    formBusca.addEventListener("change", function () {
-        const tipoUsuario = tipoUsuarioSelect.value;
-        const cidade = cidadeInput.value.toLowerCase();
+    if (formBusca && tipoUsuarioSelect && cidadeInput && tabelaUsuarios) {
+        formBusca.addEventListener("change", function () {
+            const tipoUsuario = tipoUsuarioSelect.value;
+            const cidade = cidadeInput.value.toLowerCase();
 
-        const usuarios = [...document.querySelectorAll("#tabelaUsuarios tbody tr")];
-        usuarios.forEach(function (usuario) {
-            const tipoUsuarioTd = usuario.querySelector("td:nth-child(1)").textContent.toLowerCase();
-            const cidadeTd = usuario.querySelector("td:nth-child(3)").textContent.toLowerCase();
+            const usuarios = [...document.querySelectorAll("#tabelaUsuarios tbody tr")];
+            usuarios.forEach(function (usuario) {
+                const tipoUsuarioTd = usuario.querySelector("td:nth-child(1)").textContent.toLowerCase();
+                const cidadeTd = usuario.querySelector("td:nth-child(3)").textContent.toLowerCase();
 
-            const tipoUsuarioMatch = tipoUsuario === "" || tipoUsuarioTd.includes(tipoUsuario.toLowerCase());
-            const cidadeMatch = cidade === "" || cidadeTd.includes(cidade);
+                const tipoUsuarioMatch = tipoUsuario === "" || tipoUsuarioTd.includes(tipoUsuario.toLowerCase());
+                const cidadeMatch = cidade === "" || cidadeTd.includes(cidade);
 
-            if (tipoUsuarioMatch && cidadeMatch) {
-                usuario.style.display = "";
-            } else {
-                usuario.style.display = "none";
-            }
+                if (tipoUsuarioMatch && cidadeMatch) {
+                    usuario.style.display = "";
+                } else {
+                    usuario.style.display = "none";
+                }
+            });
         });
-    });
 
-    cidadeInput.addEventListener("input", function () {
-        formBusca.dispatchEvent(new Event('change'));
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
+        cidadeInput.addEventListener("input", function () {
+            formBusca.dispatchEvent(new Event('change'));
+        });
+    }
 
     function validarCPF(cpf) {
         const regexCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/;
@@ -228,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     break;
                                 case 'estado':
                                     if (!validarEstado(valor)) {
-                                        alert("Estado inválido. Insira apenas letras.");
+                                        alert("Estado inválido. Insira um estado válido com apenas letras.");
                                         campo.style.borderColor = "red";
                                         campo.style.borderWidth = "2px";
                                     } else {
@@ -248,87 +247,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function validarFormulario() {
-        const form = document.getElementById("formCadastro");
-        if (form) {
-            const camposValidos = form.checkValidity();
-            if (!camposValidos) {
-                form.reportValidity();
-            }
-            return camposValidos;
-        }
-        return false;
-    }
-
     adicionarFormatacaoAutomatica();
     adicionarListenersValidacao();
 });
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    function validarIdadePet(idade) {
-
-        return idade >= 0;
-    }
-
-    function adicionarFormatacaoAutomatica() {
-
-    }
-
-    function adicionarListenersValidacao() {
-        const campos = {
-            'nome': 'Nome é obrigatório.',
-            'tipoPet': 'Tipo do Pet é obrigatório.',
-            'idade': 'Idade do Pet é obrigatória e deve ser um número positivo.',
-            'raca': 'Raça do Pet é obrigatória.',
-            'corPredominante': 'Cor Predominante é obrigatória.'
-        };
-
-        for (const campoId in campos) {
-            const campo = document.getElementById(campoId);
-            if (campo) {
-                campo.addEventListener("blur", function () {
-                    const valor = campo.value.trim();
-                    if (valor === "") {
-                        alert("Campo obrigatório: " + campos[campoId]);
-                        campo.style.borderColor = "red";
-                        campo.style.borderWidth = "2px"
-                    } else {
-                        switch (campoId) {
-                            case 'idade':
-                                if (!validarIdadePet(valor)) {
-                                    alert("Idade do Pet inválida. Insira um número positivo.");
-                                    campo.style.borderColor = "red";
-                                    campo.style.borderWidth = "2px"
-                                } else {
-                                    campo.style.borderColor = "";
-                                    campo.style.borderWidth = ""
-                                }
-                                break;
-                            default:
-                                campo.style.borderColor = "";
-                                campo.style.borderWidth = ""
-                                break;
-                        }
-                    }
-                });
-            }
-        }
-    }
-
-    function validarFormulario() {
-        const form = document.getElementById("formCadastro");
-        if (form) {
-            const camposValidos = form.checkValidity();
-            if (!camposValidos) {
-                form.reportValidity();
-            }
-            return camposValidos;
-        }
-        return false;
-    }
-
-    adicionarFormatacaoAutomatica();
-    adicionarListenersValidacao();
-});
-

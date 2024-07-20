@@ -40,7 +40,7 @@
                             <a class="nav-link click-scroll" th:href="@{/inicio}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" th:href="@{/inserir-usuario}">Cadastro de Usuários</a>
+                            <a class="nav-link click-scroll" th:href="@{/cadastro}">Cadastro de Usuários</a>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +79,7 @@
                                 <td th:text="${pet.raca}"></td>
                                 <td th:text="${pet.corPredominante}"></td>
                                 <td>
-                                    <a th:href="@{'/excluir-pet?id=' + ${pet.id} + '&tutorId=' + ${usuario.id}}"><button
+                                    <a th:href="@{'/excluir-pet?id=' + ${pet.id} + '&usuarioId=' + ${usuario.id}}"><button
                                             type="button" class="btn btn-danger">Excluir</button></a>
                                 </td>
                             </tr>
